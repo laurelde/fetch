@@ -1,6 +1,7 @@
 <script lang="ts">
   import { MDCTextField } from "@material/textfield";
   import { onMount, createEventDispatcher } from "svelte";
+  import "../../styles/input.scss";
 
   export let id = "";
   export let label = "";

@@ -30,6 +30,7 @@ export async function fetchGet(
 export async function fetchPost(
   url,
   data,
+  jsonResponse = true,
   timeoutMs = 5000,
   catchFunc = (e) => defaultCatch(e)
 ) {
@@ -46,14 +47,17 @@ export async function fetchPost(
       credentials: "include",
       body: JSON.stringify(data),
     });
-
-    const parsedResponse = await response.json();
+    console.log(`Response: `, response);
     if (!response.ok) {
       throw new Error(
         `Fetch Post Call Failed for ${url}, response: ${response.statusText}`
       );
     }
-    return parsedResponse;
+    if (jsonResponse) {
+      const parsedResponse = await response.json();
+      return parsedResponse;
+    }
+    return response.ok;
   } catch (error) {
     catchFunc(error);
   }

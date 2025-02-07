@@ -6,3 +6,10 @@ const app = new App({
 })
 
 export default app
+
+// import Route from './routes/Router.svelte';
+
+// const app = new Route({
+//   target: document.getElementById('app'),
+// })
+
