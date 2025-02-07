@@ -3,51 +3,54 @@
   import Button from "../components/Buttons/Button.svelte";
   import Select from "../components/Selects/Select.svelte";
   import { login } from "../api/authentication";
-  import { getBreeds } from "../api/dogData";
+  import { getBreeds, getDogIds, getDogProfiles } from "../api/dogData";
+  import { onMount } from "svelte";
 
-  let name = "";
-  let email = "";
+  let dogBreeds = [];
+  let dogIds = [];
+  let dogProfiles = [];
+  let nextLink = null;
 
-  function updateName(e) {
-    name = e.detail.value;
-  }
-
-  function updateEmail(e) {
-    email = e.detail.value;
-  }
-
-  async function submitLogin() {
-    console.log(`Name: ${name}, Email: ${email}`);
+  // Call to search for dog IDs and then profiles based on current filters
+  async function search() {
     try {
-      await login(name, email);
-    } catch {
-      console.log(`Login failed for ${name}, ${email}`);
+      let dogIdsResult = await getDogIds();
+      dogIds = dogIdsResult["resultIds"];
+      nextLink = dogIdsResult["next"];
+      if (dogIds?.length > 0) {
+        dogProfiles = await getDogProfiles(dogIds);
+      }
+    } catch (e) {
+      console.log(`Error getting dog Ids`, e);
     }
   }
 
-  async function getDogBreeds() {
-    console.log(`Getting Dog Breeds`);
-    let breeds = null;
+  onMount(async () => {
+    // Populate Dog Breed Dropdown
     try {
-      breeds = await getBreeds();
-    } catch {
-      console.log(`Get Breeds failed`);
+      dogBreeds = await getBreeds();
+    } catch (e) {
+      console.log(`Error getting dog breeds`, e);
+      window.location = "/";
     }
-  }
+
+    await search();
+  });
 </script>
 
 <main>
   <h1>Browse</h1>
 
   <div class="card">
-    <TextInput id="name" label="Name" on:valueChanged={updateName} />
-    <TextInput id="email" label="Email" on:valueChanged={updateEmail} />
+    <Button label="Search" on:click={search} />
+    {#key dogBreeds}
+      <Select id="dogBreedDropdown" label="Breed" options={dogBreeds} />
+    {/key}
   </div>
-
-  <div class="card">
-    <Button label="Register" on:click={submitLogin} />
-    <Button label="Get Breeds" on:click={getDogBreeds} />
-  </div>
+  <p>Dog IDs: {dogIds}</p>
+  {#key dogProfiles}
+    <p>Dog Profiles: {dogProfiles.toString()}</p>
+  {/key}
 
   <div />
 </main>

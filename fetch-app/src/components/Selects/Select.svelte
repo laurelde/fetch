@@ -26,12 +26,12 @@
   });
 </script>
 
-<div class="mdc-select mdc-select--outlined">
+<div class="mdc-select mdc-select--outlined" {id}>
   <div class="mdc-select__anchor" aria-labelledby={label}>
     <span class="mdc-notched-outline">
       <span class="mdc-notched-outline__leading" />
       <span class="mdc-notched-outline__notch">
-        <span id={label} class="mdc-floating-label">Label</span>
+        <span id={label} class="mdc-floating-label">{label}</span>
       </span>
       <span class="mdc-notched-outline__trailing" />
     </span>
@@ -56,10 +56,24 @@
       </svg>
     </span>
   </div>
-
-  <!-- Other elements from the select remain. -->
   <div
     class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
-    ...
+    <ul
+      class="mdc-list"
+      role="menu"
+      aria-hidden="true"
+      aria-orientation="vertical"
+      tabindex="-1">
+      {#each options as option}
+        <li
+          class={`mdc-list-item ${option == selectedId ? 'mdc-list-item--selected' : ''}`}
+          aria-selected={option == selectedId ? true : false}
+          data-value={option}
+          role="menuitem">
+          <span class="mdc-list-item__ripple" />
+          <span class="mdc-list-item__text">{option}</span>
+        </li>
+      {/each}
+    </ul>
   </div>
 </div>
