@@ -8,7 +8,14 @@ export async function getBreeds() {
 }
 
 export async function getDogIds(breeds, zipCodes, ageMin, ageMax, size, from, sortField, sortDir) {
-  let url = baseUrl + "/dogs/search";
+  let url = baseUrl + `/dogs/search?`;
+  url += breeds ? `breeds=${breeds}` : "";
+  url += zipCodes ? `&zipCodes=${zipCodes}` : "";
+  url += ageMin ? `&ageMin=${ageMin}` : "";
+  url += ageMax ? `&ageMax=${ageMax}` : "";
+  url += size ? `&size=${size}` : "";
+  url += from ? `&from=${from}` : "";
+  url += sortField && sortDir ? `&sort=${sortField}:${sortDir}` : "";
   return await fetchGet(url);
 }
 

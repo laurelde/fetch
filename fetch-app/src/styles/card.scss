@@ -1,0 +1,16 @@
+@use "@material/card";
+
+@include card.core-styles;
+
+.mdc-card {
+  max-height: 320px;
+
+  &__img {
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  &__media {
+    max-height: 100%;
+  }
+}

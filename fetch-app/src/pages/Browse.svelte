@@ -2,9 +2,12 @@
   import TextInput from "../components/Inputs/TextInput.svelte";
   import Button from "../components/Buttons/Button.svelte";
   import Select from "../components/Selects/Select.svelte";
-  import { login } from "../api/authentication";
   import { getBreeds, getDogIds, getDogProfiles } from "../api/dogData";
+  import { parseQueryString } from "../helpers/formatHelper";
   import { onMount } from "svelte";
+  import InfoCard from "../components/Cards/InfoCard.svelte";
+  import "../styles/layouts.scss";
+  import LinkButton from "../components/Buttons/LinkButton.svelte";
 
   let dogBreeds = [];
   let dogIds = [];
@@ -15,6 +18,7 @@
   let ageMin = 0;
   let ageMax = 20;
   let size = "";
+  let from = "";
   let ages = [...Array(20).keys()];
   let sortField = null;
   let sortDir = "asc";
@@ -56,6 +60,18 @@
 
   function updateMaxAge(e) {
     ageMax = e.detail.selectedOption;
+  }
+
+  function nextPage() {
+    if (nextLink) {
+      let nextLinkParams = parseQueryString(nextLink);
+      size = nextLinkParams["size"] ? nextLinkParams["size"] : null;
+      from = nextLinkParams["from"] ? nextLinkParams["from"] : null;
+    } else {
+      size = "";
+      from = "";
+    }
+    search();
   }
 
   onMount(async () => {
@@ -114,4 +130,18 @@
   {/key}
 
   <div />
+  <Button label="Next Page" on:click={nextPage}></Button>
+  <div class="grid-4-col">
+    {#key dogProfiles}
+      {#each dogProfiles as dog}
+        <InfoCard title={dog.name} imgSrc={dog.img} id={dog.id}>
+          <div slot="descriptionSlot">
+            <p>Breed: {dog.breed}</p>
+            <p>ZipCode: {dog.zip_code}</p>
+            <p>Age: {dog.age}</p>
+          </div>
+        </InfoCard>
+      {/each}
+    {/key}
+  </div>
 </main>
