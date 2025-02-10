@@ -28,3 +28,8 @@ export async function getNext(urlIn) {
   let url = baseUrl + urlIn;
   return await fetchGet(url);
 }
+
+export async function getMatch(favoriteIds) {
+  let url = baseUrl + "/dogs/match";
+  return await fetchPost(url, favoriteIds);
+}

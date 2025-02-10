@@ -2,7 +2,12 @@
   import TextInput from "../components/Inputs/TextInput.svelte";
   import Button from "../components/Buttons/Button.svelte";
   import Select from "../components/Selects/Select.svelte";
-  import { getBreeds, getDogIds, getDogProfiles } from "../api/dogData";
+  import {
+    getBreeds,
+    getDogIds,
+    getDogProfiles,
+    getMatch,
+  } from "../api/dogData";
   import { logout } from "../api/authentication";
   import { getNext } from "../api/dogData";
   import { getFavorites, setFavorites } from "../helpers/favoritesHelper";
@@ -13,6 +18,7 @@
   import LinkButton from "../components/Buttons/LinkButton.svelte";
   import ToggleButton from "../components/Buttons/ToggleButton.svelte";
   import Header from "../components/Layout/Header.svelte";
+  import Dialog from "../components/Layout/Dialog.svelte";
 
   let dogBreeds = [];
   let dogIds = [];
@@ -29,6 +35,9 @@
   let sortDir = "asc";
   let totalNumberOfDogs = null;
   let favoritesList = [];
+  let match = null;
+  let matchInfo = null;
+  let matchDialogOpen = false;
   let toggleOptions = [
     {
       id: "breed",
@@ -68,21 +77,10 @@
     dogProfiles = await getDogProfiles(result);
   }
 
-  // function updateZipCode(e) {
-  //   zipCode = e.detail.value;
-  // }
-
-  // function updateBreed(e) {
-  //   breed = e.detail.selectedOption;
-  // }
-
-  // function updateMinAge(e) {
-  //   ageMin = e.detail.selectedOption;
-  // }
-
-  // function updateMaxAge(e) {
-  //   ageMax = e.detail.selectedOption;
-  // }
+  async function showMatchDialog() {
+    await assignMatch();
+    matchDialogOpen = true;
+  }
 
   async function nextPage() {
     if (nextLink) {
@@ -114,8 +112,10 @@
     }
   }
 
-  async function goToLogin() {
-    await logout();
+  async function assignMatch() {
+    match = await getMatch(favoritesList);
+    matchInfo = await getDogProfiles([match["match"]]);
+    console.log(`Match Info:`, matchInfo);
   }
 
   onMount(async () => {
@@ -133,6 +133,7 @@
   <Header />
   <div class="core-content">
     <h1 class="row">My Favorite Dogs</h1>
+    <Button label="Get My Match" on:click={showMatchDialog}></Button>
     <div class="browse main">
       <div class="row">
         {#key toggleOptions}
@@ -185,3 +186,27 @@
     </div>
   </div>
 </main>
+
+<Dialog id="matchDialog" open={matchDialogOpen} title="Your Match">
+  <div slot="contentSlot">
+    {#if matchInfo}
+      <InfoCard
+        title={matchInfo[0].name}
+        imgSrc={matchInfo[0].img}
+        id={matchInfo[0].id}
+        favorite={favoritesList?.includes(matchInfo[0].id)}
+        on:favorited={updateFavorites}
+      >
+        <div slot="descriptionSlot">
+          <p>Breed: {matchInfo[0].breed} ZipCode: {matchInfo[0].zip_code}</p>
+          <p>Age: {matchInfo[0].age}</p>
+        </div>
+      </InfoCard>
+    {:else}
+      <h3>
+        We didn't find a match for you this time! Favorite more dogs and try
+        again.
+      </h3>
+    {/if}
+  </div>
+</Dialog>
