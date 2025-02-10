@@ -26,6 +26,7 @@
   let sortField = null;
   let sortDir = "asc";
   let totalNumberOfDogs = null;
+  let favoritesList = [];
   let toggleOptions = [
     {
       id: "breed",
@@ -93,6 +94,20 @@
     sortField = e.detail.value;
     sortDir = e.detail.sortAsc ? "asc" : "desc";
     search();
+  }
+
+  function updateFavorites(e) {
+    let addFavorite = e.detail.favorite;
+    let id = e.detail.id;
+
+    if (addFavorite) {
+      favoritesList.push(id);
+    } else {
+      const index = favoritesList.indexOf(id);
+      if (index > -1) {
+        favoritesList = favoritesList.splice(index, 1);
+      }
+    }
   }
 
   async function nextPage() {
@@ -193,7 +208,12 @@
         <div class="grid-4-col">
           {#key dogProfiles}
             {#each dogProfiles as dog}
-              <InfoCard title={dog.name} imgSrc={dog.img} id={dog.id}>
+              <InfoCard
+                title={dog.name}
+                imgSrc={dog.img}
+                id={dog.id}
+                on:favorited={updateFavorites}
+              >
                 <div slot="descriptionSlot">
                   <p>Breed: {dog.breed} ZipCode: {dog.zip_code}</p>
                   <p>Age: {dog.age}</p>
