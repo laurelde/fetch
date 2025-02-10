@@ -29,7 +29,6 @@
   let sortDir = "asc";
   let totalNumberOfDogs = null;
   let favoritesList = [];
-  let errorMessage = null;
   let toggleOptions = [
     {
       id: "breed",
@@ -46,57 +45,57 @@
   ];
 
   // Call to search for dog IDs and then profiles based on current filters
-  async function search() {
-    try {
-      let dogIdsResult = await getDogIds(
-        breed,
-        zipCode,
-        ageMin,
-        ageMax,
-        size,
-        0,
-        sortField,
-        sortDir
-      );
-      setDogData(dogIdsResult);
-    } catch (e) {
-      console.log(`Error getting dog Ids`, e);
-    }
-  }
+  // async function search() {
+  //   try {
+  //     let dogIdsResult = await getDogIds(
+  //       breed,
+  //       zipCode,
+  //       ageMin,
+  //       ageMax,
+  //       size,
+  //       0,
+  //       sortField,
+  //       sortDir
+  //     );
+  //     setDogData(dogIdsResult);
+  //   } catch (e) {
+  //     console.log(`Error getting dog Ids`, e);
+  //   }
+  // }
 
   async function setDogData(result) {
-    dogIds = result["resultIds"];
-    nextLink = result["next"];
-    totalNumberOfDogs = result["total"];
-    let parsedNextLink = await parseQueryString(nextLink);
-    from = parsedNextLink["from"];
-    // Make sure next link actually has data
-    if (Number(from) > totalNumberOfDogs) {
-      nextLink = null;
+    totalNumberOfDogs = result.length;
+    dogProfiles = await getDogProfiles(result);
+  }
+
+  // function updateZipCode(e) {
+  //   zipCode = e.detail.value;
+  // }
+
+  // function updateBreed(e) {
+  //   breed = e.detail.selectedOption;
+  // }
+
+  // function updateMinAge(e) {
+  //   ageMin = e.detail.selectedOption;
+  // }
+
+  // function updateMaxAge(e) {
+  //   ageMax = e.detail.selectedOption;
+  // }
+
+  async function nextPage() {
+    if (nextLink) {
+      let nextResult = await getNext(nextLink);
+      setDogData(nextResult);
+    } else {
+      return;
     }
-    dogProfiles = await getDogProfiles(dogIds);
-  }
-
-  function updateZipCode(e) {
-    zipCode = e.detail.value;
-  }
-
-  function updateBreed(e) {
-    breed = e.detail.selectedOption;
-  }
-
-  function updateMinAge(e) {
-    ageMin = e.detail.selectedOption;
-  }
-
-  function updateMaxAge(e) {
-    ageMax = e.detail.selectedOption;
   }
 
   function updateSort(e) {
     sortField = e.detail.value;
     sortDir = e.detail.sortAsc ? "asc" : "desc";
-    search();
   }
 
   function updateFavorites(e) {
@@ -115,15 +114,6 @@
     }
   }
 
-  async function nextPage() {
-    if (nextLink) {
-      let nextResult = await getNext(nextLink);
-      setDogData(nextResult);
-    } else {
-      return;
-    }
-  }
-
   async function goToLogin() {
     await logout();
   }
@@ -131,57 +121,18 @@
   onMount(async () => {
     // Populate Dog Breed Dropdown
     try {
-      dogBreeds = await getBreeds();
       favoritesList = getFavorites();
+      let setData = await setDogData(favoritesList);
     } catch (e) {
       console.log(`Error getting dog breeds`, e);
-      errorMessage =
-        "There was an issue retrieving the data, please log in and try again.";
     }
-
-    await search();
   });
 </script>
 
 <main>
-  <Header></Header>
+  <Header />
   <div class="core-content">
-    <h1 class="row">Browse Adoptable Dogs</h1>
-    <aside>
-      <h2>Filter + Sort</h2>
-      <h3>{totalNumberOfDogs} dogs found</h3>
-      {#key dogBreeds}
-        <Select
-          id="dogBreedDropdown"
-          label="Breed"
-          options={dogBreeds}
-          on:valueChanged={updateBreed}
-        />
-      {/key}
-
-      <TextInput
-        id="zipCodeInput"
-        label="Zip Code"
-        on:valueChanged={updateZipCode}
-      />
-      {#key ages}
-        <Select
-          id="ageMinDropdown"
-          label="Minimum Age"
-          options={ages}
-          on:valueChanged={updateMinAge}
-        />
-      {/key}
-      {#key ages}
-        <Select
-          id="ageMaxDropdown"
-          label="Maxiumum Age"
-          options={ages}
-          on:valueChanged={updateMaxAge}
-        />
-      {/key}
-      <Button label="Search" on:click={search} />
-    </aside>
+    <h1 class="row">My Favorite Dogs</h1>
     <div class="browse main">
       <div class="row">
         {#key toggleOptions}
@@ -194,17 +145,11 @@
       </div>
 
       <div />
-      {#if errorMessage}
+      {#if totalNumberOfDogs < 1}
         <div class="error-message">
           <h2>
-            {errorMessage}
-          </h2>
-        </div>
-      {:else if totalNumberOfDogs < 1}
-        <div class="error-message">
-          <h2>
-            Sorry, no dogs match the criteria you searched by! Adjust your
-            search filters and try again.
+            You haven't favorited any dogs yet! Go back to the Browse page and
+            click on a dog to favorite it.
           </h2>
         </div>
       {:else if dogProfiles.length > 0}

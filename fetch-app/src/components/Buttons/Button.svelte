@@ -9,6 +9,7 @@
   const dispatch = createEventDispatcher();
 
   function onClick(e) {
+    console.log(`Clicking Button`);
     dispatch("click", {
       buttonElement: e.currentTarget,
     });
@@ -24,7 +25,6 @@
     class="mdc-button mdc-button--touch mdc-button--raised"
     {disabled}
     on:click={onClick}
-    on:submit={onClick}
   >
     <span class="mdc-button__ripple" />
     <span class="mdc-button__touch" />
