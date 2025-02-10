@@ -41,6 +41,10 @@ h1 {
 }
 
 #app {
+  width: 100vw;
+}
+
+.main {
   width: 90vw;
   margin: auto;
   text-align: center;
@@ -76,4 +80,8 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+main {
+  padding-bottom: 20px;
 }

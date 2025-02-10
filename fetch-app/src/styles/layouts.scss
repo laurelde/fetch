@@ -34,3 +34,24 @@
     grid-column-gap: 40px;
   }
 }
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+
+  > * {
+    margin: 10px;
+  }
+
+  &.align-right {
+    justify-content: flex-end;
+  }
+}
+
+header {
+  background-color: black;
+  padding: 0 20px;
+}
