@@ -64,6 +64,12 @@
     dogIds = result["resultIds"];
     nextLink = result["next"];
     totalNumberOfDogs = result["total"];
+    let parsedNextLink = await parseQueryString(nextLink);
+    from = parsedNextLink["from"];
+    // Make sure next link actually has data
+    if (Number(from) > totalNumberOfDogs) {
+      nextLink = null;
+    }
     dogProfiles = await getDogProfiles(dogIds);
   }
 
@@ -122,40 +128,45 @@
       ></LinkButton>
     </div>
   </header>
-  <div class="main">
-    <h1>Browse</h1>
-    <div class="row">
-      <div class="row">
-        {#key dogBreeds}
-          <Select
-            id="dogBreedDropdown"
-            label="Breed"
-            options={dogBreeds}
-            on:valueChanged={updateBreed}
-          />
-        {/key}
-
-        <TextInput
-          id="zipCodeInput"
-          label="Zip Code"
-          on:valueChanged={updateZipCode}
+  <div class="core-content">
+    <h1 class="row">Browse Adoptable Dogs</h1>
+    <aside>
+      <h2>Filter + Sort</h2>
+      <h3>{totalNumberOfDogs} dogs found</h3>
+      {#key dogBreeds}
+        <Select
+          id="dogBreedDropdown"
+          label="Breed"
+          options={dogBreeds}
+          on:valueChanged={updateBreed}
         />
-        {#key ages}
-          <Select
-            id="ageMinDropdown"
-            label="Minimum Age"
-            options={ages}
-            on:valueChanged={updateMinAge}
-          />
-        {/key}
-        {#key ages}
-          <Select
-            id="ageMaxDropdown"
-            label="Maxiumum Age"
-            options={ages}
-            on:valueChanged={updateMaxAge}
-          />
-        {/key}
+      {/key}
+
+      <TextInput
+        id="zipCodeInput"
+        label="Zip Code"
+        on:valueChanged={updateZipCode}
+      />
+      {#key ages}
+        <Select
+          id="ageMinDropdown"
+          label="Minimum Age"
+          options={ages}
+          on:valueChanged={updateMinAge}
+        />
+      {/key}
+      {#key ages}
+        <Select
+          id="ageMaxDropdown"
+          label="Maxiumum Age"
+          options={ages}
+          on:valueChanged={updateMaxAge}
+        />
+      {/key}
+      <Button label="Search" on:click={search} />
+    </aside>
+    <div class="browse main">
+      <div class="row">
         {#key toggleOptions}
           <ToggleButton
             {toggleOptions}
@@ -164,39 +175,39 @@
           ></ToggleButton>
         {/key}
       </div>
-      <Button label="Search" on:click={search} />
-    </div>
-    {#key totalNumberOfDogs}
-      Dogs Found: {totalNumberOfDogs}
-    {/key}
 
-    <div />
-    {#if totalNumberOfDogs < 1}
-      <div class="error-message">
-        <h2>
-          Sorry, no dogs match the criteria you searched by! Adjust your search
-          filters and try again.
-        </h2>
-      </div>
-    {:else}
-      <div class="row align-right">
-        <Button label="Next Page" on:click={nextPage}></Button>
-      </div>
-      <div class="grid-4-col">
-        {#key dogProfiles}
-          {#each dogProfiles as dog}
-            <InfoCard title={dog.name} imgSrc={dog.img} id={dog.id}>
-              <div slot="descriptionSlot">
-                <p>Breed: {dog.breed} ZipCode: {dog.zip_code}</p>
-                <p>Age: {dog.age}</p>
-              </div>
-            </InfoCard>
-          {/each}
-        {/key}
-      </div>
-      <div class="row align-right">
-        <Button label="Next Page" on:click={nextPage}></Button>
-      </div>
-    {/if}
+      <div />
+      {#if totalNumberOfDogs < 1}
+        <div class="error-message">
+          <h2>
+            Sorry, no dogs match the criteria you searched by! Adjust your
+            search filters and try again.
+          </h2>
+        </div>
+      {:else if dogProfiles.length > 0}
+        {#if nextLink}
+          <div class="row align-right">
+            <Button label="Next Page" on:click={nextPage}></Button>
+          </div>
+        {/if}
+        <div class="grid-4-col">
+          {#key dogProfiles}
+            {#each dogProfiles as dog}
+              <InfoCard title={dog.name} imgSrc={dog.img} id={dog.id}>
+                <div slot="descriptionSlot">
+                  <p>Breed: {dog.breed} ZipCode: {dog.zip_code}</p>
+                  <p>Age: {dog.age}</p>
+                </div>
+              </InfoCard>
+            {/each}
+          {/key}
+        </div>
+        {#if nextLink}
+          <div class="row align-right">
+            <Button label="Next Page" on:click={nextPage}></Button>
+          </div>
+        {/if}
+      {/if}
+    </div>
   </div>
 </main>

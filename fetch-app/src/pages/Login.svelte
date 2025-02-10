@@ -29,29 +29,20 @@
       window.location = "/#/Browse";
     }
   }
-
-  async function getDogBreeds() {
-    console.log(`Getting Dog Breeds`);
-    let breeds = null;
-    try {
-      breeds = await getBreeds();
-    } catch {
-      console.log(`Get Breeds failed`);
-    }
-  }
 </script>
 
-<main>
+<main id="login">
   <h1>Login</h1>
 
-  <div class="card">
-    <TextInput id="name" label="Name" on:valueChanged={updateName} />
-    <TextInput id="email" label="Email" on:valueChanged={updateEmail} />
-  </div>
+  <form>
+    <div class="card">
+      <TextInput id="name" label="Name" on:valueChanged={updateName} />
+      <TextInput id="email" label="Email" on:valueChanged={updateEmail} />
+    </div>
 
-  <div class="card">
-    <Button label="Login" on:click={submitLogin} />
-  </div>
-
+    <div class="card">
+      <Button label="Login" on:click={submitLogin} />
+    </div>
+  </form>
   <div />
 </main>

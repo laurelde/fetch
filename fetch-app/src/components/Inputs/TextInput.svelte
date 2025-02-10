@@ -33,5 +33,6 @@
     type="text"
     class="mdc-text-field__input"
     aria-labelledby={`${id}-field-label`}
-    on:blur={valueChanged} />
+    on:input={valueChanged}
+  />
 </label>

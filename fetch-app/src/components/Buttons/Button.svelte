@@ -23,7 +23,9 @@
   <button
     class="mdc-button mdc-button--touch mdc-button--raised"
     {disabled}
-    on:click={onClick}>
+    on:click={onClick}
+    on:submit={onClick}
+  >
     <span class="mdc-button__ripple" />
     <span class="mdc-button__touch" />
     <span class="mdc-button__label">{label}</span>

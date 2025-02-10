@@ -35,6 +35,36 @@
   }
 }
 
+aside {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 5px 10px;
+
+  > * {
+    margin: 5px;
+  }
+
+  @media only screen and (min-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media only screen and (min-width: 900px)  {
+    grid-template-columns: 1fr;
+    position: absolute;
+    height: auto;
+    width: 250px;
+    box-sizing: border-box;
+  }
+}
+
+.browse.main {
+  margin: 20px;
+  
+  @media only screen and (min-width: 900px) {
+    margin-left: 270px;
+    margin-right: 20px;
+  }
+  
+}
 .row {
   display: flex;
   flex-direction: row;
@@ -54,4 +84,10 @@
 header {
   background-color: black;
   padding: 0 20px;
+}
+
+#login {
+  width: 100vw;
+  margin: auto;
+  text-align: center;
 }
