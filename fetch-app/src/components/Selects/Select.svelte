@@ -10,9 +10,9 @@
 
   const dispatch = createEventDispatcher();
 
-  function valueChanged(id) {
+  function valueChanged(option) {
     dispatch("valueChanged", {
-      selectedOption: id,
+      selectedOption: option,
     });
   }
 
@@ -21,6 +21,7 @@
 
     select.listen("MDCSelect:change", (e) => {
       selectedId = e.detail.value;
+      console.log(`SelectedID: ${selectedId}`);
       valueChanged(selectedId);
     });
   });
@@ -42,34 +43,40 @@
       <svg
         class="mdc-select__dropdown-icon-graphic"
         viewBox="7 10 10 5"
-        focusable="false">
+        focusable="false"
+      >
         <polygon
           class="mdc-select__dropdown-icon-inactive"
           stroke="none"
           fill-rule="evenodd"
-          points="7 10 12 15 17 10" />
+          points="7 10 12 15 17 10"
+        />
         <polygon
           class="mdc-select__dropdown-icon-active"
           stroke="none"
           fill-rule="evenodd"
-          points="7 15 12 10 17 15" />
+          points="7 15 12 10 17 15"
+        />
       </svg>
     </span>
   </div>
   <div
-    class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth">
+    class="mdc-select__menu mdc-menu mdc-menu-surface mdc-menu-surface--fullwidth"
+  >
     <ul
       class="mdc-list"
       role="menu"
       aria-hidden="true"
       aria-orientation="vertical"
-      tabindex="-1">
+      tabindex="-1"
+    >
       {#each options as option}
         <li
-          class={`mdc-list-item ${option == selectedId ? 'mdc-list-item--selected' : ''}`}
+          class={`mdc-list-item ${option == selectedId ? "mdc-list-item--selected" : ""}`}
           aria-selected={option == selectedId ? true : false}
           data-value={option}
-          role="menuitem">
+          role="menuitem"
+        >
           <span class="mdc-list-item__ripple" />
           <span class="mdc-list-item__text">{option}</span>
         </li>

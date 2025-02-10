@@ -19,7 +19,7 @@
   let ageMax = 20;
   let size = "";
   let from = "";
-  let ages = [...Array(20).keys()];
+  let ages = [...Array(20).keys().map(String)];
   let sortField = null;
   let sortDir = "asc";
 
@@ -105,7 +105,7 @@
       label="Zip Code"
       on:valueChanged={updateZipCode}
     />
-    {#key ageMin}
+    {#key ages}
       <Select
         id="ageMinDropdown"
         label="Minimum Age"
@@ -113,7 +113,7 @@
         on:valueChanged={updateMinAge}
       />
     {/key}
-    {#key ageMax}
+    {#key ages}
       <Select
         id="ageMaxDropdown"
         label="Maxiumum Age"
@@ -136,8 +136,7 @@
       {#each dogProfiles as dog}
         <InfoCard title={dog.name} imgSrc={dog.img} id={dog.id}>
           <div slot="descriptionSlot">
-            <p>Breed: {dog.breed}</p>
-            <p>ZipCode: {dog.zip_code}</p>
+            <p>Breed: {dog.breed} ZipCode: {dog.zip_code}</p>
             <p>Age: {dog.age}</p>
           </div>
         </InfoCard>
