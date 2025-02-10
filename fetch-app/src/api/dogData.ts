@@ -23,3 +23,8 @@ export async function getDogProfiles(ids) {
   let url = baseUrl + "/dogs";
   return await fetchPost(url, ids);
 }
+
+export async function getNext(urlIn) {
+  let url = baseUrl + urlIn;
+  return await fetchGet(url);
+}

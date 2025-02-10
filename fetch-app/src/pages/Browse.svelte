@@ -3,6 +3,7 @@
   import Button from "../components/Buttons/Button.svelte";
   import Select from "../components/Selects/Select.svelte";
   import { getBreeds, getDogIds, getDogProfiles } from "../api/dogData";
+  import { getNext } from "../api/dogData";
   import { parseQueryString } from "../helpers/formatHelper";
   import { onMount } from "svelte";
   import InfoCard from "../components/Cards/InfoCard.svelte";
@@ -22,6 +23,7 @@
   let ages = [...Array(20).keys().map(String)];
   let sortField = null;
   let sortDir = "asc";
+  let totalNumberOfDogs = null;
 
   // Call to search for dog IDs and then profiles based on current filters
   async function search() {
@@ -36,13 +38,18 @@
         sortField,
         sortDir
       );
-      dogIds = dogIdsResult["resultIds"];
-      nextLink = dogIdsResult["next"];
-      if (dogIds?.length > 0) {
-        dogProfiles = await getDogProfiles(dogIds);
-      }
+      setDogData(dogIdsResult);
     } catch (e) {
       console.log(`Error getting dog Ids`, e);
+    }
+  }
+
+  async function setDogData(result) {
+    dogIds = result["resultIds"];
+    nextLink = result["next"];
+    totalNumberOfDogs = result["total"];
+    if (dogIds?.length > 0) {
+      dogProfiles = await getDogProfiles(dogIds);
     }
   }
 
@@ -62,16 +69,13 @@
     ageMax = e.detail.selectedOption;
   }
 
-  function nextPage() {
+  async function nextPage() {
     if (nextLink) {
-      let nextLinkParams = parseQueryString(nextLink);
-      size = nextLinkParams["size"] ? nextLinkParams["size"] : null;
-      from = nextLinkParams["from"] ? nextLinkParams["from"] : null;
+      let nextResult = await getNext(nextLink);
+      setDogData(nextResult);
     } else {
-      size = "";
-      from = "";
+      return;
     }
-    search();
   }
 
   onMount(async () => {
@@ -124,9 +128,8 @@
 
     <Button label="Search" on:click={search} />
   </div>
-  <p>Dog IDs: {dogIds}</p>
-  {#key dogProfiles}
-    <p>Dog Profiles: {dogProfiles.toString()}</p>
+  {#key totalNumberOfDogs}
+    Dogs Found: {totalNumberOfDogs}
   {/key}
 
   <div />
