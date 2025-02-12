@@ -30,6 +30,7 @@
   let totalNumberOfDogs = null;
   let favoritesList = [];
   let errorMessage = null;
+  let searchLoading = true;
   let toggleOptions = [
     {
       id: "breed",
@@ -47,6 +48,7 @@
 
   // Call to search for dog IDs and then profiles based on current filters
   async function search() {
+    searchLoading = true;
     try {
       let dogIdsResult = await getDogIds(
         breed,
@@ -58,8 +60,10 @@
         sortField,
         sortDir
       );
-      setDogData(dogIdsResult);
+      await setDogData(dogIdsResult);
+      searchLoading = false;
     } catch (e) {
+      searchLoading = false;
       console.log(`Error getting dog Ids`, e);
     }
   }
@@ -194,7 +198,11 @@
       </div>
 
       <div />
-      {#if errorMessage}
+      {#if searchLoading}
+        <div class="error-message">
+          <h2>Loading...</h2>
+        </div>
+      {:else if errorMessage}
         <div class="error-message">
           <h2>
             {errorMessage}

@@ -134,7 +134,7 @@
   <div class="core-content">
     <h1 class="row">My Favorite Dogs</h1>
     <Button label="Get My Match" on:click={showMatchDialog}></Button>
-    <div class="browse main">
+    <div class="favorites main">
       <div class="row">
         {#key toggleOptions}
           <ToggleButton
