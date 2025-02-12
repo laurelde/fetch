@@ -1,13 +1,71 @@
 @use "@material/button/styles";
+@use "variables" as v;
 
+
+.fc-button.mdc-button {
+  // --mdc-theme-primary: v.$dark-brown;
+  // --mdc-theme-on-primary: v.$light-brown; 
+  --mdc-theme-primary: #a45b37;
+  --mdc-theme-on-primary: #fffdf9; 
+  --mdc-outlined-button-outline-color: v.$dark-brown;
+  border-radius: 0;
+
+  .mdc-button__ripple {
+    border-radius: 0;
+  }
+
+  &.mdc-button--raised,
+  &.mdc-button--outlined {
+    border-radius: 0;
+  }
+
+  .mdc-button--outlined {
+    // border-color: v.$dark-brown;;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
 .material-symbols-outlined {
-  transition:1s;
+  font-size: 18px;
+  position: absolute;
 
   &.flipped {
-    -o-transform:rotate(180deg);
-    -ms-transform:rotate(180deg);
-    -moz-transform:rotate(180deg);
-    -webkit-transform:rotate(180deg);
-    transform:rotate(180deg);
+    rotate: 180deg;
+    // -o-transform:rotate(180deg);
+    // -ms-transform:rotate(180deg);
+    // -moz-transform:rotate(180deg);
+    // -webkit-transform:rotate(180deg);
+    // transform:rotate(180deg);
+  }
+
+
+}
+
+.btn__toggle-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form--label {
+    margin-right: 10px;
+  }
+
+  .btn__toggle-group__group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid v.$dark-brown;
+  
+    .mdc-button {
+      padding: 0 20px;
+      margin:0; 
+  
+      &.mdc-button--raised .mdc-button__label {
+        padding-right: 10px;
+      }
+    }
   }
 }

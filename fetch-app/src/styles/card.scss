@@ -1,8 +1,15 @@
 @use "@material/card";
+@use "variables" as v;
 
 @include card.core-styles;
 
 .mdc-card {
+  border-radius: 0;
+  border: 1px solid v.$medium-brown;
+
+  &:hover {
+    border: 2px solid v.$medium-brown;
+  }
 
   &__img {
     max-height: 100%;
@@ -11,8 +18,6 @@
 
   &__media {
     max-height: 100%;
-    border-bottom: 1px solid lightgrey;
-    background-color: darkgreen;
   }
 
   &__media-content {

@@ -34,7 +34,7 @@
         <button
           id={option.id}
           aria-label={`${label}: ${option.label}`}
-          class={`mdc-button mdc-button--raised mdc-button--touch mdc-button--large ${option.id == selectedToggleId ? "btn__toggle-group--selected" : ""}`}
+          class={`fc-button mdc-button  mdc-button--touch mdc-button--large ${option.id == selectedToggleId ? "btn__toggle-group--selected" : ""}  ${option.id == selectedToggleId ? "mdc-button--raised" : "mdc-button--outlined"}`}
           on:click={toggleClicked}
         >
           <span class="mdc-button__ripple"></span>
@@ -42,13 +42,11 @@
           <span class="mdc-button__label"
             >{option.label}
 
-            {#if option.id == selectedToggleId}
-              <span
-                class={`material-symbols-outlined ${sortAsc ? "" : "flipped"}`}
-              >
-                arrow_upward
-              </span>
-            {/if}
+            <span
+              class={`material-symbols-outlined ${sortAsc ? "" : "flipped"} ${option.id != selectedToggleId ? "hidden" : ""}`}
+            >
+              arrow_upward
+            </span>
           </span>
         </button>
       </div>

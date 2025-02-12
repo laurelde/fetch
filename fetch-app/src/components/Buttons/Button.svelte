@@ -5,6 +5,7 @@
 
   export let label = "";
   export let disabled = false;
+  export let theme = "mdc-button--raised";
 
   const dispatch = createEventDispatcher();
 
@@ -22,7 +23,7 @@
 
 <div class="mdc-touch-target-wrapper">
   <button
-    class="mdc-button mdc-button--touch mdc-button--raised"
+    class={`fc-button mdc-button mdc-button--touch ${theme}`}
     {disabled}
     on:click={onClick}
   >

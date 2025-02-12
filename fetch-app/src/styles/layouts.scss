@@ -58,9 +58,10 @@ aside {
 
 .browse.main {
   margin: 20px;
+  padding: 10px;
 
   @media only screen and (min-width: 900px) {
-    margin-left: 270px;
+    margin-left: 245px;
     margin-right: 20px;
   }
   
@@ -82,8 +83,16 @@ aside {
 }
 
 header {
-  background-color: black;
   padding: 0 20px;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+
+  .mdc-button:hover {
+    border-bottom: 1px solid 
+  }
 }
 
 #login {

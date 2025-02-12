@@ -5,8 +5,9 @@
 
 <header>
   <div class="row align-right">
-    <LinkButton href="/#/Browse" label="Browse Dogs"></LinkButton>
-    <LinkButton href="/#/Favorites" label="My Favorites"></LinkButton>
-    <LinkButton href="/#/Login" label="Logout" on:click={logout}></LinkButton>
+    <LinkButton theme="" href="/#/Browse" label="Browse"></LinkButton>
+    <LinkButton theme="" href="/#/Favorites" label="Favorites"></LinkButton>
+    <LinkButton theme="" href="/#/Login" label="Logout" on:click={logout}
+    ></LinkButton>
   </div>
 </header>
