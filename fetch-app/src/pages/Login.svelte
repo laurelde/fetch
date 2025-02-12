@@ -39,7 +39,7 @@
 
 <main id="login">
   <h1>Login</h1>
-  <form on:submit={submitLogin}>
+  <form on:submit|preventDefault={submitLogin} method="get">
     <div class="card">
       <TextInput id="name" label="Name" on:valueChanged={updateName} />
       <TextInput id="email" label="Email" on:valueChanged={updateEmail} />
