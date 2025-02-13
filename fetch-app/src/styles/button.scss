@@ -76,4 +76,23 @@ button:not(.btn__toggle-group--selected) {
       }
     }
   }
+
+}
+
+.btn__toggle-group .mdc-touch-target-wrapper:not(:last-child) .mdc-button--outlined {
+  border-right: 1px solid brown;
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+}
+
+.btn__toggle-group .mdc-touch-target-wrapper:last-child .mdc-button--outlined {
+  border-right: none;
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+}
+
+.mdc-touch-target-wrapper {
+  margin-left: -1px;
 }

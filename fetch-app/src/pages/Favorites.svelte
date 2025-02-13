@@ -190,35 +190,40 @@
     </div>
   </div>
 </main>
-
-<Dialog id="matchDialog" open={matchDialogOpen} title="Your Match">
-  <div slot="contentSlot">
-    {#if matchInfo}
-      <InfoCard
-        title={matchInfo[0].name}
-        imgSrc={matchInfo[0].img}
-        id={matchInfo[0].id}
-        favorite={favoritesList?.includes(matchInfo[0].id)}
-        on:favorited={updateFavorites}
-      >
-        <div slot="descriptionSlot">
-          <dl>
-            <span class="info-list"
-              ><dt>Breed:</dt>
-              <dd>{matchInfo[0].breed}</dd>
-              <dt>Age:</dt>
-              <dd>{matchInfo[0].age}</dd>
-              <dt>ZipCode:</dt>
-              <dd>{matchInfo[0].zip_code}</dd></span
-            >
-          </dl>
-        </div>
-      </InfoCard>
-    {:else}
-      <h3>
-        We didn't find a match for you this time! Favorite more dogs and try
-        again.
-      </h3>
-    {/if}
-  </div>
-</Dialog>
+{#if matchInfo}
+  <Dialog
+    id="matchDialog"
+    open={matchDialogOpen}
+    title={`Your Match is... ${matchInfo[0]?.name}!`}
+  >
+    <div slot="contentSlot">
+      {#if matchInfo}
+        <InfoCard
+          title={matchInfo[0].name}
+          imgSrc={matchInfo[0].img}
+          id={matchInfo[0].id}
+          favorite={favoritesList?.includes(matchInfo[0].id)}
+          on:favorited={updateFavorites}
+        >
+          <div slot="descriptionSlot">
+            <dl>
+              <span class="info-list"
+                ><dt>Breed:</dt>
+                <dd>{matchInfo[0].breed}</dd>
+                <dt>Age:</dt>
+                <dd>{matchInfo[0].age}</dd>
+                <dt>ZipCode:</dt>
+                <dd>{matchInfo[0].zip_code}</dd></span
+              >
+            </dl>
+          </div>
+        </InfoCard>
+      {:else}
+        <h3>
+          We didn't find a match for you this time! Favorite more dogs and try
+          again.
+        </h3>
+      {/if}
+    </div>
+  </Dialog>
+{/if}
