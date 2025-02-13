@@ -170,8 +170,16 @@
                 on:favorited={updateFavorites}
               >
                 <div slot="descriptionSlot">
-                  <p>Breed: {dog.breed} ZipCode: {dog.zip_code}</p>
-                  <p>Age: {dog.age}</p>
+                  <dl>
+                    <span class="info-list"
+                      ><dt>Breed:</dt>
+                      <dd>{dog.breed}</dd>
+                      <dt>Age:</dt>
+                      <dd>{dog.age}</dd>
+                      <dt>ZipCode:</dt>
+                      <dd>{dog.zip_code}</dd>
+                    </span>
+                  </dl>
                 </div>
               </InfoCard>
             {/each}
@@ -198,8 +206,16 @@
         on:favorited={updateFavorites}
       >
         <div slot="descriptionSlot">
-          <p>Breed: {matchInfo[0].breed} ZipCode: {matchInfo[0].zip_code}</p>
-          <p>Age: {matchInfo[0].age}</p>
+          <dl>
+            <span class="info-list"
+              ><dt>Breed:</dt>
+              <dd>{matchInfo[0].breed}</dd>
+              <dt>Age:</dt>
+              <dd>{matchInfo[0].age}</dd>
+              <dt>ZipCode:</dt>
+              <dd>{matchInfo[0].zip_code}</dd></span
+            >
+          </dl>
         </div>
       </InfoCard>
     {:else}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, tick } from "svelte";
   export let label = "";
   export let toggleOptions = [];
   export let selectedToggleId = "";
@@ -8,7 +8,7 @@
 
   const dispatch = createEventDispatcher();
 
-  function toggleClicked(event) {
+  async function toggleClicked(event) {
     selectedToggleId = event.currentTarget.getAttribute("id");
 
     if (previousSelectedToggleId == selectedToggleId) {
@@ -16,6 +16,8 @@
     } else {
       sortAsc = true;
     }
+
+    await tick();
 
     dispatch("toggleClicked", {
       value: selectedToggleId,
@@ -27,7 +29,7 @@
 </script>
 
 <div class="btn__toggle-group">
-  <div class="form--label" id="toggleBtnLabel">{label}</div>
+  <div class="form--label" id="toggleBtnLabel"><h3>{label}</h3></div>
   <div class="btn__toggle-group__group">
     {#each toggleOptions as option, index}
       <div class="mdc-touch-target-wrapper">
@@ -43,7 +45,7 @@
             >{option.label}
 
             <span
-              class={`material-symbols-outlined ${sortAsc ? "" : "flipped"} ${option.id != selectedToggleId ? "hidden" : ""}`}
+              class={`material-symbols-outlined ${sortAsc ? "" : "flipped"} ${option.id == selectedToggleId ? "visible" : ""}`}
             >
               arrow_upward
             </span>

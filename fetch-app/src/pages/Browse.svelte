@@ -154,37 +154,41 @@
     <aside>
       <h2>Filter + Sort</h2>
       <h3>{totalNumberOfDogs} dogs found</h3>
-      {#key dogBreeds}
-        <Select
-          id="dogBreedDropdown"
-          label="Breed"
-          options={dogBreeds}
-          on:valueChanged={updateBreed}
-        />
-      {/key}
+      <div class="aside-filters">
+        {#key dogBreeds}
+          <Select
+            id="dogBreedDropdown"
+            label="Breed"
+            options={dogBreeds}
+            on:valueChanged={updateBreed}
+          />
+        {/key}
 
-      <TextInput
-        id="zipCodeInput"
-        label="Zip Code"
-        on:valueChanged={updateZipCode}
-      />
-      {#key ages}
-        <Select
-          id="ageMinDropdown"
-          label="Minimum Age"
-          options={ages}
-          on:valueChanged={updateMinAge}
+        <TextInput
+          id="zipCodeInput"
+          label="Zip Code"
+          on:valueChanged={updateZipCode}
         />
-      {/key}
-      {#key ages}
-        <Select
-          id="ageMaxDropdown"
-          label="Maxiumum Age"
-          options={ages}
-          on:valueChanged={updateMaxAge}
-        />
-      {/key}
-      <Button label="Search" on:click={search} />
+        {#key ages}
+          <Select
+            id="ageMinDropdown"
+            label="Minimum Age"
+            options={ages}
+            on:valueChanged={updateMinAge}
+          />
+        {/key}
+        {#key ages}
+          <Select
+            id="ageMaxDropdown"
+            label="Maxiumum Age"
+            options={ages}
+            on:valueChanged={updateMaxAge}
+          />
+        {/key}
+      </div>
+      <div class="align-center">
+        <Button label="Search" on:click={search} />
+      </div>
     </aside>
     <div class="browse main">
       <div class="row">
@@ -232,8 +236,16 @@
                 on:favorited={updateFavorites}
               >
                 <div slot="descriptionSlot">
-                  <p>Breed: {dog.breed} ZipCode: {dog.zip_code}</p>
-                  <p>Age: {dog.age}</p>
+                  <dl>
+                    <span class="info-list"
+                      ><dt>Breed:</dt>
+                      <dd>{dog.breed}</dd>
+                      <dt>Age:</dt>
+                      <dd>{dog.age}</dd>
+                      <dt>ZipCode:</dt>
+                      <dd>{dog.zip_code}</dd>
+                    </span>
+                  </dl>
                 </div>
               </InfoCard>
             {/each}
