@@ -21,7 +21,6 @@
 
     select.listen("MDCSelect:change", (e) => {
       selectedId = e.detail.value;
-      console.log(`SelectedID: ${selectedId}`);
       valueChanged(selectedId);
     });
   });

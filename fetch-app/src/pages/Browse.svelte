@@ -13,6 +13,7 @@
   import LinkButton from "../components/Buttons/LinkButton.svelte";
   import ToggleButton from "../components/Buttons/ToggleButton.svelte";
   import Header from "../components/Layout/Header.svelte";
+  import LoadingCard from "../components/Cards/LoadingCard.svelte";
 
   let dogBreeds = [];
   let dogIds = [];
@@ -64,7 +65,6 @@
       searchLoading = false;
     } catch (e) {
       searchLoading = false;
-      console.log(`Error getting dog Ids`, e);
     }
   }
 
@@ -108,17 +108,13 @@
     let id = e.detail.id;
 
     if (addFavorite) {
-      console.log(`Adding ${id} to favorites: ${favoritesList}`);
       favoritesList.push(id);
       setFavorites(favoritesList);
-      console.log(`Favorites: ${getFavorites()}`);
     } else {
       const index = favoritesList.indexOf(id);
       if (index > -1) {
-        console.log(`Removing ${id} from favorites: ${favoritesList}`);
         favoritesList = favoritesList.filter((e) => e !== id);
         setFavorites(favoritesList);
-        console.log(`Favorites: ${getFavorites()}`);
       }
     }
   }
@@ -141,9 +137,7 @@
     try {
       dogBreeds = await getBreeds();
       favoritesList = getFavorites();
-      console.log(`OnMount Favorites: ${favoritesList}`);
     } catch (e) {
-      console.log(`Error getting dog breeds`, e);
       errorMessage =
         "There was an issue retrieving the data, please log in and try again.";
     }
@@ -158,7 +152,7 @@
     <h1 class="row">Browse Adoptable Dogs</h1>
     <aside>
       <h2>Filter + Sort</h2>
-      <h3>{totalNumberOfDogs} dogs found</h3>
+      <h3>{totalNumberOfDogs ? totalNumberOfDogs : "0"} dogs found</h3>
       <div class="aside-filters">
         {#key dogBreeds}
           <Select
@@ -196,11 +190,15 @@
       </div>
     </aside>
     <div class="browse main">
-      {#if searchLoading}
-        <div class="error-message">
-          <span class="loader"></span>
+      <!-- {#if searchLoading}
+        <div class="grid-4-col">
+          <LoadingCard></LoadingCard>
+          <LoadingCard></LoadingCard>
+          <LoadingCard></LoadingCard>
+          <LoadingCard></LoadingCard>
         </div>
-      {:else if errorMessage}
+      {:else if errorMessage} -->
+      {#if errorMessage}
         <div class="error-message">
           <h2>
             {errorMessage}

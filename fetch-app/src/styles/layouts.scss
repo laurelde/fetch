@@ -84,8 +84,13 @@ aside  {
     margin-left: 245px;
     margin-right: 20px;
   }
-  
 }
+
+.favorites.main {
+  margin: 0 20px 20px 20px;
+  padding: 10px;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -133,8 +138,17 @@ header {
   width: 100vw;
   margin: auto;
   text-align: center;
-  top: 20vh;
+  padding-top: 20vh;
   position: absolute;
+  height: 100vh;
+  box-sizing: border-box;
+  background-color: v.$medium-brown;
+
+  > div {
+    background-color: v.$white;
+    padding: 20px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+  }
 
   h1 {
     font-size: 3.2em;
@@ -148,7 +162,7 @@ header {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-  padding: 30px 10px;
+  padding: 30px 20px;
   margin: 0;
   background: v.$medium-brown;
 }

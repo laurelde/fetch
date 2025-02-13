@@ -102,17 +102,13 @@
     let id = e.detail.id;
 
     if (addFavorite) {
-      console.log(`Adding ${id} to favorites: ${favoritesList}`);
       favoritesList.push(id);
       setFavorites(favoritesList);
-      console.log(`Favorites: ${getFavorites()}`);
     } else {
       const index = favoritesList.indexOf(id);
       if (index > -1) {
-        console.log(`Removing ${id} from favorites: ${favoritesList}`);
         favoritesList = favoritesList.filter((e) => e !== id);
         setFavorites(favoritesList);
-        console.log(`Favorites: ${getFavorites()}`);
       }
     }
   }
@@ -120,17 +116,16 @@
   async function assignMatch() {
     match = await getMatch(favoritesList);
     matchInfo = await getDogProfiles([match["match"]]);
-    console.log(`Match Info:`, matchInfo);
   }
 
   onMount(async () => {
     // Populate Dog Breed Dropdown
     try {
+      searchLoading = true;
       favoritesList = getFavorites();
       let setData = await setDogData(favoritesList);
-    } catch (e) {
-      console.log(`Error getting dog breeds`, e);
-    }
+      searchLoading = false;
+    } catch (e) {}
   });
 </script>
 
@@ -138,18 +133,10 @@
   <Header />
   <div class="core-content">
     <h1 class="row">My Favorite Dogs</h1>
-    <Button label="Get My Match" on:click={showMatchDialog}></Button>
+    <div class="row align-center">
+      <Button label="Get My Match" on:click={showMatchDialog}></Button>
+    </div>
     <div class="favorites main">
-      <div class="row">
-        {#key toggleOptions}
-          <ToggleButton
-            {toggleOptions}
-            label="Sort"
-            on:toggleClicked={updateSort}
-          ></ToggleButton>
-        {/key}
-      </div>
-
       <div />
       {#if searchLoading}
         <div class="error-message">

@@ -47,7 +47,6 @@ export async function fetchPost(
       credentials: "include",
       body: JSON.stringify(data),
     });
-    console.log(`Response: `, response);
     if (!response.ok) {
       throw new Error(
         `Fetch Post Call Failed for ${url}, response: ${response.statusText}`

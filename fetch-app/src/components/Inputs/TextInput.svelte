@@ -14,7 +14,6 @@
 
   function valueChanged(e) {
     let newValue = e.srcElement.value;
-    console.log(`Text Field Value Changed`, e);
     dispatch("valueChanged", {
       value: newValue,
     });

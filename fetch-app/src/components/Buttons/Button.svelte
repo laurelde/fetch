@@ -10,7 +10,6 @@
   const dispatch = createEventDispatcher();
 
   function onClick(e) {
-    console.log(`Clicking Button`);
     dispatch("click", {
       buttonElement: e.currentTarget,
     });

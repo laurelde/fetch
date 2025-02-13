@@ -24,7 +24,6 @@
   });
 
   async function submitLogin() {
-    console.log(`Name: ${name}, Email: ${email}`);
     let successfulLogin = false;
     try {
       let loginFunc = login(name, email).then((response) => {
@@ -38,16 +37,18 @@
 </script>
 
 <main id="login">
-  <h1>Login</h1>
-  <form on:submit|preventDefault={submitLogin} method="get">
-    <div class="card">
-      <TextInput id="name" label="Name" on:valueChanged={updateName} />
-      <TextInput id="email" label="Email" on:valueChanged={updateEmail} />
-    </div>
+  <div>
+    <h1>Fetch Finder</h1>
+    <form on:submit|preventDefault={submitLogin} method="get">
+      <div class="card">
+        <TextInput id="name" label="Name" on:valueChanged={updateName} />
+        <TextInput id="email" label="Email" on:valueChanged={updateEmail} />
+      </div>
 
-    <div class="card">
-      <Button label="Login" />
-    </div>
-  </form>
-  <div />
+      <div class="card">
+        <Button label="Login" />
+      </div>
+    </form>
+    <div />
+  </div>
 </main>
