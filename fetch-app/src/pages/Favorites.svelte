@@ -38,6 +38,7 @@
   let match = null;
   let matchInfo = null;
   let matchDialogOpen = false;
+  let searchLoading = true;
   let toggleOptions = [
     {
       id: "breed",
@@ -101,13 +102,17 @@
     let id = e.detail.id;
 
     if (addFavorite) {
+      console.log(`Adding ${id} to favorites: ${favoritesList}`);
       favoritesList.push(id);
       setFavorites(favoritesList);
+      console.log(`Favorites: ${getFavorites()}`);
     } else {
       const index = favoritesList.indexOf(id);
       if (index > -1) {
-        favoritesList = favoritesList.splice(index, 1);
+        console.log(`Removing ${id} from favorites: ${favoritesList}`);
+        favoritesList = favoritesList.filter((e) => e !== id);
         setFavorites(favoritesList);
+        console.log(`Favorites: ${getFavorites()}`);
       }
     }
   }
@@ -146,7 +151,11 @@
       </div>
 
       <div />
-      {#if totalNumberOfDogs < 1}
+      {#if searchLoading}
+        <div class="error-message">
+          <span class="loader"></span>
+        </div>
+      {:else if totalNumberOfDogs < 1}
         <div class="error-message">
           <h2>
             You haven't favorited any dogs yet! Go back to the Browse page and

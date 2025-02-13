@@ -108,13 +108,17 @@
     let id = e.detail.id;
 
     if (addFavorite) {
+      console.log(`Adding ${id} to favorites: ${favoritesList}`);
       favoritesList.push(id);
       setFavorites(favoritesList);
+      console.log(`Favorites: ${getFavorites()}`);
     } else {
       const index = favoritesList.indexOf(id);
       if (index > -1) {
-        favoritesList = favoritesList.splice(index, 1);
+        console.log(`Removing ${id} from favorites: ${favoritesList}`);
+        favoritesList = favoritesList.filter((e) => e !== id);
         setFavorites(favoritesList);
+        console.log(`Favorites: ${getFavorites()}`);
       }
     }
   }
@@ -137,6 +141,7 @@
     try {
       dogBreeds = await getBreeds();
       favoritesList = getFavorites();
+      console.log(`OnMount Favorites: ${favoritesList}`);
     } catch (e) {
       console.log(`Error getting dog breeds`, e);
       errorMessage =
@@ -191,20 +196,9 @@
       </div>
     </aside>
     <div class="browse main">
-      <div class="row">
-        {#key toggleOptions}
-          <ToggleButton
-            {toggleOptions}
-            label="Sort"
-            on:toggleClicked={updateSort}
-          ></ToggleButton>
-        {/key}
-      </div>
-
-      <div />
       {#if searchLoading}
         <div class="error-message">
-          <h2>Loading...</h2>
+          <span class="loader"></span>
         </div>
       {:else if errorMessage}
         <div class="error-message">
@@ -221,7 +215,14 @@
         </div>
       {:else if dogProfiles.length > 0}
         {#if nextLink}
-          <div class="row align-right">
+          <div class="row sort">
+            {#key toggleOptions}
+              <ToggleButton
+                {toggleOptions}
+                label="Sort"
+                on:toggleClicked={updateSort}
+              ></ToggleButton>
+            {/key}
             <Button label="Next Page" on:click={nextPage}></Button>
           </div>
         {/if}
