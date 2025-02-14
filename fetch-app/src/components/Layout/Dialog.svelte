@@ -73,7 +73,7 @@
       <div class="mdc-dialog__actions">
         <button
           type="button"
-          class="mdc-button mdc-dialog__button"
+          class="fc-button mdc-button mdc-dialog__button"
           data-mdc-dialog-action="ok"
         >
           <div class="mdc-button__ripple"></div>

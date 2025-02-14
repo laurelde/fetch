@@ -117,7 +117,7 @@ header {
   position: sticky;
   top: 0;
   background-color: white;
-  z-index: 10;
+  z-index: 6;
 
   .mdc-touch-target-wrapper {
     margin: 0;
@@ -169,4 +169,9 @@ h1 {
 
 h3 {
   font-weight: 400;
+}
+
+.match {
+  max-width: 350px;
+  margin: auto;
 }
