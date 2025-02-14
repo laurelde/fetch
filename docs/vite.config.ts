@@ -8,6 +8,9 @@ export default defineConfig({
     sourcemap: "inline",
   },
   server: {
+    port: 8080,
+  },
+  preview: {
     port: 8088,
   },
 });
