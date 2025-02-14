@@ -13,6 +13,18 @@ export async function login(name, email) {
 
 export async function logout() {
   let url = baseUrl + "/auth/logout";
-  return await fetchPost(url, null, false);
-
-}
+    try {
+      let response = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(
+          `Fetch Post Call Failed for ${url}, response: ${response.statusText}`
+        );
+      }
+      return response.ok;
+    } catch (error) {
+      console.log(error);
+    }
+  }
