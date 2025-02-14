@@ -83,6 +83,10 @@
     matchDialogOpen = true;
   }
 
+  function hideMatchDialog() {
+    matchDialogOpen = false;
+  }
+
   async function nextPage() {
     if (nextLink) {
       let nextResult = await getNext(nextLink);
@@ -195,6 +199,7 @@
     id="matchDialog"
     open={matchDialogOpen}
     title={`Your Match is... ${matchInfo[0]?.name}!`}
+    on:dialogClosed={hideMatchDialog}
   >
     <div slot="contentSlot">
       <div class="match">

@@ -204,7 +204,7 @@
             {errorMessage}
           </h2>
         </div>
-      {:else if totalNumberOfDogs < 1}
+      {:else if !searchLoading && totalNumberOfDogs < 1}
         <div class="error-message">
           <h2>
             Sorry, no dogs match the criteria you searched by! Adjust your
