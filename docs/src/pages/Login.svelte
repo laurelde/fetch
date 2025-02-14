@@ -2,9 +2,9 @@
   import TextInput from "../components/Inputs/TextInput.svelte";
   import Button from "../components/Buttons/Button.svelte";
   import Select from "../components/Selects/Select.svelte";
-  import { login } from "../api/authentication";
+  import { login, logout } from "../api/authentication";
   import { getBreeds } from "../api/dogData";
-  import { prevent_default } from "svelte/internal";
+  import { onMount, prevent_default } from "svelte/internal";
 
   let name = "";
   let email = "";
@@ -34,6 +34,14 @@
       console.log(`Login failed for ${name}, ${email}`);
     }
   }
+
+  onMount(async () => {
+    try {
+      logout();
+    } catch {
+      console.log("No user logged in");
+    }
+  });
 </script>
 
 <main id="login">
